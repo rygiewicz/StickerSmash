@@ -4,13 +4,16 @@ import colors from './config/colors';
 import ImageViewer from './components/ImageViewer';
 import Button from './components/Button';
 import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react';
 
 const placeholder = require('./assets/images/background-image.png');
 
 export default function App() {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   async function onChoosePhotoPress() {
     const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
+      allowsEditing: false,
       quality: 1,
     });
 
@@ -18,13 +21,13 @@ export default function App() {
       return;
     }
 
-    console.log(result);
+    setSelectedImage(result.assets[0].uri);
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <ImageViewer placeholder={placeholder} />
+        <ImageViewer placeholder={placeholder} uri={selectedImage} />
       </View>
       <View style={styles.footerContainer}>
         <Button label="Choose a photo" theme="primary" onPress={onChoosePhotoPress} />
