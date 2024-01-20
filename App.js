@@ -8,6 +8,7 @@ import IconButton from './components/IconButton';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import EmojiPicker from './components/EmojiPicker';
+import EmojiList from './components/EmojiList';
 
 const placeholder = require('./assets/images/background-image.png');
 
@@ -15,6 +16,7 @@ export default function App() {
   const [pickerVisible, setPickerVisible] = useState(false);
   const [appOptionsVisible, setAppOptionsVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [pickedEmoji, setPickedEmoji] = useState(null);
 
   async function onChoosePhotoPress() {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -68,7 +70,9 @@ export default function App() {
           <Button label="Use this photo" onPress={onUsePhotoPress} />
         </View>
       )}
-      <EmojiPicker isVisible={pickerVisible} onClose={onPickerClose}></EmojiPicker>
+      <EmojiPicker isVisible={pickerVisible} onClose={onPickerClose}>
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onPickerClose} />
+      </EmojiPicker>
       <StatusBar style={colors.statusBar} />
     </View>
   );
