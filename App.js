@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import EmojiPicker from './components/EmojiPicker';
 import EmojiList from './components/EmojiList';
+import EmojiSticker from './components/EmojiSticker';
 
 const placeholder = require('./assets/images/background-image.png');
 
@@ -55,6 +56,7 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageViewer placeholder={placeholder} uri={selectedImage} />
+        {pickedEmoji && <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />}
       </View>
       {appOptionsVisible ? (
         <View style={styles.optionsContainer}>
