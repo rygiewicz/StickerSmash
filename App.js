@@ -7,11 +7,13 @@ import CircleButton from './components/CircleButton';
 import IconButton from './components/IconButton';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
+import EmojiPicker from './components/EmojiPicker';
 
 const placeholder = require('./assets/images/background-image.png');
 
 export default function App() {
-  const [showAppOptions, setShowAppOptions] = useState(false);
+  const [pickerVisible, setPickerVisible] = useState(false);
+  const [appOptionsVisible, setAppOptionsVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   async function onChoosePhotoPress() {
@@ -28,19 +30,23 @@ export default function App() {
   }
 
   function onUsePhotoPress() {
-    setShowAppOptions(true);
+    setAppOptionsVisible(true);
   }
 
-  function onReset() {
-    setShowAppOptions(false);
+  function onResetPress() {
+    setAppOptionsVisible(false);
   }
 
-  function onAddSticker() {
+  function onAddStickerPress() {
+    setPickerVisible(true);
+  }
+
+  function onSaveImagePress() {
     // we will implement this later
   }
 
-  function onSaveImageAsync() {
-    // we will implement this later
+  function onPickerClose() {
+    setPickerVisible(false);
   }
 
   return (
@@ -48,12 +54,12 @@ export default function App() {
       <View style={styles.imageContainer}>
         <ImageViewer placeholder={placeholder} uri={selectedImage} />
       </View>
-      {showAppOptions ? (
+      {appOptionsVisible ? (
         <View style={styles.optionsContainer}>
           <View style={styles.optionsRow}>
-            <IconButton icon="refresh" label="Reset" onPress={onReset} />
-            <CircleButton onPress={onAddSticker} />
-            <IconButton icon="save-alt" label="Save" onPress={onSaveImageAsync} />
+            <IconButton icon="refresh" label="Reset" onPress={onResetPress} />
+            <CircleButton onPress={onAddStickerPress} />
+            <IconButton icon="save-alt" label="Save" onPress={onSaveImagePress} />
           </View>
         </View>
       ) : (
@@ -62,6 +68,7 @@ export default function App() {
           <Button label="Use this photo" onPress={onUsePhotoPress} />
         </View>
       )}
+      <EmojiPicker isVisible={pickerVisible} onClose={onPickerClose}></EmojiPicker>
       <StatusBar style={colors.statusBar} />
     </View>
   );
